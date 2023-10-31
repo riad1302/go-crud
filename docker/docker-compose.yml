@@ -1,0 +1,19 @@
+networks:
+  common-net:
+    external: true
+
+services:
+
+  app:
+    image: ${COMPOSE_PROJECT_NAME}-app:${DOCKER_BUILD_MODE:-prod}
+    build:
+      context: ../
+      dockerfile: docker/app/app.Dockerfile
+    tty: true
+    restart: always
+    ports:
+      - ${HTTP_PUBLISH_PORT}:8080
+    networks:
+      common-net:
+        aliases:
+          - golang
